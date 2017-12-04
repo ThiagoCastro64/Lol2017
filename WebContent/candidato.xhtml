@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+  <!DOCTYPE html>
+  <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+      <h:head>
+          <title>Time-Candidato</title>
+                </h:head>
+      <h:body style="padding-top: 50px; padding-bottom: 20px; background-color:rgb(56, 97, 78)">
+          <b:navBar brand="League of Legends" brand-href="home.xhtml" inverse="true" fixed="top">
+              <b:navbarLinks>
+                  <b:navLink value="Votar" href="votacao.xhtml"></b:navLink>
+                  <b:navLink class="active" value="Cadastro do Time" href="candidato.xhtml"></b:navLink>
+                  <b:navLink  value="Apuração" href="apuracao.xhtml"></b:navLink>
+                  
+              </b:navbarLinks>
+          </b:navBar>
+          <b:container>
+	          <h:form>
+				  <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			  </h:form>
+		  </b:container>
+          <b:container>
+          	  <br/>
+              <h:form>
+              	<b:row>
+              	  <b:column col-md="6">
+              	  		<h:form>
+              	  			<b:panel title="Logo do Time" text-align="center" collapsible="false">
+              	  				<p:graphicImage id="refresh" cache="false" value="#{candidatoController.sc}" weight="300" height="150"/>
+						    	<p:fileUpload fileUploadListener="#{candidatoController.handleFileUpload}" 
+						    				  mode="advanced" 
+						    				  label="Procurar"
+						    				  dragDropSupport="true"
+						                 	  update="refresh" 
+						                 	  auto="true" 
+						                 	  sizeLimit="1000000" 
+						                 	  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							</b:panel>
+						   	
+						</h:form>
+              	  </b:column>
+                  <b:column col-md="6">
+	             	   <b:label text="Nome do Time" id="nomeCandidato"/>
+					   <b:inputText placeholder="Digite o nome do time" 
+					   				value="#{candidatoController.candidato.nome}">
+						    <f:facet name="append">
+					            <b:commandButton look="primary" 
+					            				 value="Buscar" 
+					            				 action="#{candidatoController.buscarCandidato}" 
+					            				 iconAwesome="search" 
+					            				 icon-align="right"/>
+					        </f:facet>
+					   </b:inputText>        
+					   <b:label text="Sigla" 
+					   			id="siglaCandidato"/>
+					   <b:inputText placeholder="Digite a sigla do candidato" 
+					   				value="#{candidatoController.candidato.sigla}"/>
+					   <b:label text="Descrição" id="descricaoCandidato"/>
+					   <b:inputTextarea placeholder="Apresente a descricao" 
+					   					value="#{candidatoController.candidato.descricao}">
+					   </b:inputTextarea>
+					   <h:panelGrid columns="3">
+						   <b:commandButton value="Cadastrar" 
+						   					look="success" 
+						   					action="#{candidatoController.adicionarCandidato}"/>
+						   <b:commandButton value="Alterar" 
+						   					look="primary"  
+						   					action="#{candidatoController.alterarCandidato}"
+						   					disabled = "#{candidatoController.botaoDesativado}"/>
+						   <b:commandButton value="Excluir" 
+						   					look="danger"  
+						   					action="#{candidatoController.excluirCandidato}"
+						   					disabled = "#{candidatoController.botaoDesativado}"/>
+				       </h:panelGrid>
+				  </b:column>
+				 </b:row>
+			  </h:form>
+          </b:container>
+   		  <b:container>
+   		  	 
+   		  </b:container>
+      </h:body>
+  </html>

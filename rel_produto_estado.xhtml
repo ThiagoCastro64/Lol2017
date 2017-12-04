@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+	<h:head>
+		<meta charset="utf-8"/>
+		<title>Relatorio</title>
+	</h:head>
+	<h:body style="padding-top: 50px; padding-bottom: 20px; background-color:rgb(56, 97, 78)">
+          <b:navBar brand="League of Legends" brand-href="home.xhtml" inverse="true" fixed="top">
+              <b:navbarLinks>
+                  <b:navLink class="active" value="Votar" href="#"></b:navLink>
+                  <b:navLink value="Cadastro do Time" href="candidato.xhtml"></b:navLink>
+                  <b:navLink value="Apuração" href="apuracao.xhtml"></b:navLink>
+                  
+              </b:navbarLinks>
+          </b:navBar>
+          <b:container>
+          	  <h:form>
+				  <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			  </h:form>
+          </b:container>
+          <b:container>
+          	<br/>
+          	<h:form id="form">
+	          	<p:carousel value="#{votoMB.candidatos}" headerText="Lista de Candidatos" var="candidato" 
+	          		itemStyle="text-align:none" responsive="true">
+	          		<p:panelGrid columns="2" style="width:100%; margin: 10px 0px"
+	          		  	columnClasses="value" layout="grid" styleClass="ui-panelgrid-blank">
+	          			<f:facet name="header">
+	          				<p:graphicImage cache="false" value="#{imagesView.imagem}" weight="200" height="200">
+									<f:param name="candidatoId" value="#{candidato.id}"/>
+							</p:graphicImage>
+	          			</f:facet>
+	          			
+	          			
+	          			<h:outputText value="Nome"/>
+	          			<h:outputText value="#{candidato.nome}"/>
+	          			
+	          			<h:outputText value="Sigla"/>
+	          			<h:outputText value="#{candidato.sigla}"/>
+	          			
+	          			<h:outputText value="Descrição"/>
+	          			<p:commandButton update=":form:descricaoDetail" oncomplete="PF('descricaoDialog').show()" value="Descricao">
+	                    	<f:setPropertyActionListener value="#{candidato}" target="#{votoMB.selectedCandidato}" />
+	                	</p:commandButton>
+	                	
+	          			<h:outputText value=""/>
+	          			<b:commandButton update=":form2:votoPanel" value="Votar" look="success" oncomplete="PF('votarDialog').show()">
+	          				<f:setPropertyActionListener value="#{candidato}" target="#{votoMB.voto.candidatoEscolhido}"/>
+	          			</b:commandButton>  
+	          			
+	          		</p:panelGrid>
+	          		
+	          	</p:carousel>
+	          	
+	          	<p:dialog header="Descricao" widgetVar="descricaoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+	        		<p:outputPanel id="descricaoDetail" style="text-align:center;">
+	            		<p:panelGrid  columns="2" rendered="#{not empty votoMB.selectedCandidato}" columnClasses="value">
+	               			 <f:facet name="header">
+	                    		 <h:outputText value="IMG do time"/>
+	                		 </f:facet>
+	                		 <h:outputText value="Descrição:" />
+	                		 <h:outputText value="#{votoMB.selectedCandidato.descricao}" />            	
+	            	</p:panelGrid>
+	        	  </p:outputPanel>
+	    		</p:dialog>
+	     	</h:form>     	
+	     	
+	     	<h:form id="form2">
+	     		<p:dialog header="Confirmar Voto" widgetVar="votarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="nome">
+	    			<p:outputPanel id="votoPanel" style="text-align:center;">
+	    				<p:panelGrid columns="2" rendered="#{not empty votoMB.voto.candidatoEscolhido}" columnClasses="value">
+	    					<f:facet name="header">
+	    						<h:outputText value="#{votoMB.voto.candidatoEscolhido.nome} - #{votoMB.voto.candidatoEscolhido.sigla}"/>
+	    					</f:facet>
+	    					
+	    					<h:outputText value="Nome do Eleitor: "/>
+	    					<h:inputText id="nome" required="true" value="#{votoMB.voto.nomeEleitor}" />
+	    					
+	    					<h:outputText value="CPF do Eleitor: "/>
+	    					<h:inputText required="true" value="#{votoMB.voto.cpfEleitor}"/>
+	    						    					
+
+    						<p:commandButton value="Confirmar" id="ajax" actionListener="#{votoMB.votar}" styleClass="ui-priority-primary" 
+    							oncomplete="PF('votarDialog').hide()" />
+	    						
+	    				</p:panelGrid>
+	    			</p:outputPanel>
+	    		
+	    		</p:dialog>
+	     	</h:form>
+	     </b:container>
+	</h:body>
+</html>
