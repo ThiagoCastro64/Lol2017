@@ -58,7 +58,7 @@ public class ApuracaoController {
 				pieModel2.set(nomeCandidato, numeroVotos);
 			}
 		}
-		pieModel2.setTitle("Gráfico das eleições");
+		pieModel2.setTitle("Gr�fico Dos Times Votados");
 		pieModel2.setLegendPosition("e");
 		pieModel2.setFill(false);
 		pieModel2.setShowDataLabels(true);
